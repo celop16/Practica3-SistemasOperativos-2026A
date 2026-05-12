@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int pid;
+
+int main() {
+    pid = fork();
+    switch (pid) {
+        case -1:
+            printf("\nNo he podido crear el proceso hijo");
+            break;
+        case 0:
+            printf("\nSoy el hijo, mi PID es %d y mi PPID es %d", getpid(), getppid());
+            // Quitamos Wait
+            break;
+        default:
+            printf("\nSoy el padre, mi PID es %d y el PID de mi hijo es %d", getpid(), pid);
+            wait(NULL); // Agregamos wait para que el padre espere al hijo
+            break;
+    }
+    printf("\nFinal de ejecucion de %d \n", getpid());
+    exit(0);
+}
